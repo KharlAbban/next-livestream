@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## General Guidelines for the codebase
 
-## Getting Started
+### File and Folder Structure
 
-First, run the development server:
+The project follows conventional and standard NextJS file and folder structure using the src directory and App Router. <br />
+All design and development files and folders are to be put or colocated inside the /src folder. <br />
+The src folder contains 4 sub-folders, desccibed below:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- /app => contains ONLY routing files and is used for routing purposes. No components are to be placed here.
+- /components => contains ALL components to be used throughout the project. No routing files or config files here
+- /hooks => contains all hooks used throughout the project.
+- /lib => contains all miscallenous files and folders. Type files, constants, configs, server actions, everything else not stated above goes here.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Remember to arrange the content in an orderly and easy-to-reference format.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Naming Conventions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Folders in /app: All routing-specifc folders are to be named using folder-name notation. eg, contact-us, our-services, thank-you-page etc.
+- Other Folders: All non-routing folders are to be named using camelCase notation. eg, serverActions, randomComponentsForFood, etc.
+- Custom Component Files: All custom components and component files are to be named using PascalCase notation. eg, Testimonials, SiteFooter, etc.
+- Non-component files: All non-component files are to be named using snake_case notation. eg, library_config_file, custom_types, etc.
