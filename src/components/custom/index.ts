@@ -5,6 +5,8 @@ import UserAvatar from "./common/UserAvatar";
 import LiveBadge from "./common/LiveBadge";
 import FollowUserButton from "./common/FollowUserButton";
 import UsersFollowed from "./sidebar/UsersFollowed";
+import CreatorSidebar from "./sidebar/CreatorSidebar";
+import ToggleCard from "./dashboard/ToggleCard";
 
 export {
   Navbar,
@@ -14,4 +16,6 @@ export {
   LiveBadge,
   FollowUserButton,
   UsersFollowed,
+  CreatorSidebar,
+  ToggleCard,
 };

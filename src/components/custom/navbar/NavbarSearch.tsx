@@ -3,13 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import qs from "query-string";
 import { RELATIVE_PATHS } from "@/lib/constants";
 
 export default function NavbarSearch() {
   const router = useRouter();
+  const pathname = usePathname();
   const [value, setValue] = useState("");
 
   const onSubmit = (Event: React.FormEvent<HTMLFormElement>) => {
@@ -31,6 +32,13 @@ export default function NavbarSearch() {
   };
 
   const onClear = () => setValue("");
+
+  if (pathname.startsWith(RELATIVE_PATHS.creatorPage))
+    return (
+      <h2 className="text-gray-50 font-medium flex items-center">
+        🧙‍♂️Creator Dashboard🪄
+      </h2>
+    );
 
   return (
     <form

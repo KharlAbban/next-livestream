@@ -10,7 +10,7 @@ export default async function Sidebar() {
 
   return (
     <SidebarWrapper>
-      <SidebarToggle />
+      <SidebarToggle sidebarType="user" />
       <div className="space-y-4 pt-4 lg:pt-0">
         <UsersFollowed usersFollowed={usersFollowed} />
         <RecommendedUsers

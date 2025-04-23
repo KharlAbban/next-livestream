@@ -4,10 +4,16 @@ import { Button } from "@/components/ui/button";
 import { useSidebarStore } from "@/store/use_sidebar_store";
 import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
 
-export default function SidebarToggle() {
+export default function SidebarToggle({
+  sidebarType,
+}: {
+  sidebarType: "creator" | "user";
+}) {
   const { onCollapse, onExpand, collapsed } = useSidebarStore((state) => state);
 
   const label = collapsed ? "Expand" : "Collapse";
+  const sidebarTitle =
+    sidebarType === "creator" ? "Creator Sidebar" : "For You";
 
   return (
     <>
@@ -21,7 +27,7 @@ export default function SidebarToggle() {
 
       {!collapsed && (
         <div className="p-3 pl-6 mb-2 flex items-center w-full">
-          <p className="font-semibold">For You</p>
+          <p className="font-semibold">{sidebarTitle}</p>
           <Button
             onClick={onCollapse}
             className="h-auto p-2 ml-auto"

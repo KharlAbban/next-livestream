@@ -24,8 +24,8 @@ export default function SidebarWrapper({ children }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed left-0 flex flex-col h-full w-60 bg-background border-r z-50 transition-all duration-200",
-        collapsed && "w-[70px] transition-all duration-200",
+        "fixed overflow-x-hidden left-0 flex flex-col h-full w-[70px] lg:w-60 bg-background border-r z-50 transition-all duration-200",
+        collapsed && "lg:w-[70px] transition-all duration-200",
       )}
     >
       {children}

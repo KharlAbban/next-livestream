@@ -22,9 +22,4 @@ export const follow_schema = defineType({
       to: [{ type: "user" }],
     }),
   ],
-  preview: {
-    select: {
-      title: "Following Document",
-    },
-  },
 });
