@@ -9,23 +9,18 @@ export const block_schema = defineType({
   fields: [
     defineField({
       name: "blockerId",
-      title: "Clerk ID",
+      title: "Blocker ID",
       description: "Unique user identifier for the user blocking another user",
       type: "reference",
       to: [{ type: "user" }],
     }),
     defineField({
       name: "blockedId",
-      title: "Clerk ID",
+      title: "Blocked ID",
       description:
         "Unique user identifier for the user blocked by another user",
       type: "reference",
       to: [{ type: "user" }],
     }),
   ],
-  preview: {
-    select: {
-      title: "Blocking Document",
-    },
-  },
 });

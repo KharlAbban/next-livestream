@@ -7,10 +7,10 @@ import { toast } from "sonner";
 
 export default function BlockUserButton({
   id,
-  isBlocked,
+  hasBlockedUser,
 }: {
   id: string;
-  isBlocked: boolean;
+  hasBlockedUser: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
 
@@ -58,11 +58,11 @@ export default function BlockUserButton({
 
   return (
     <Button
-      variant={isBlocked ? "outline" : "destructive"}
+      variant={hasBlockedUser ? "outline" : "destructive"}
       disabled={isPending}
-      onClick={isBlocked ? unblockUserAction : blockUserAction}
+      onClick={hasBlockedUser ? unblockUserAction : blockUserAction}
     >
-      {isBlocked ? "Unblock user" : "Block user"}
+      {hasBlockedUser ? "Unblock user" : "Block user"}
     </Button>
   );
 }

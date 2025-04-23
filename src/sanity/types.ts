@@ -125,6 +125,29 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
+export type Stream = {
+  _id: string;
+  _type: "stream";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  userId?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  name?: string;
+  thumbnailUrl?: string;
+  ingressId?: string;
+  serverUrl?: string;
+  streamKey?: string;
+  isLive?: boolean;
+  chatEnabled?: boolean;
+  chatDelayed?: boolean;
+  chatFollowersOnly?: boolean;
+};
+
 export type Blocking = {
   _id: string;
   _type: "blocking";
@@ -194,7 +217,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | SanityAssetSourceData | Blocking | Follow | User | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | SanityAssetSourceData | Stream | Blocking | Follow | User | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: SANITY_GET_USER_BY_CLERK_ID
@@ -327,6 +350,64 @@ export type SANITY_GET_EXISTING_BLOCKING_QUERYResult = {
     [internalGroqTypeReferenceTo]?: "user";
   };
 } | null;
+// Variable: SANITY_GET_USERS_WHO_BLOCKED_ME_QUERY
+// Query: *[_type == "blocking" && blockedId._ref == $blockedId] {      blockerId    }
+export type SANITY_GET_USERS_WHO_BLOCKED_ME_QUERYResult = Array<{
+  blockerId: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  } | null;
+}>;
+// Variable: SANITY_GET_STREAM_BY_USER_ID_QUERY
+// Query: *[_type == "stream" && userId._ref == $userId][0] {    ...  }
+export type SANITY_GET_STREAM_BY_USER_ID_QUERYResult = {
+  _id: string;
+  _type: "stream";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  userId?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  name?: string;
+  thumbnailUrl?: string;
+  ingressId?: string;
+  serverUrl?: string;
+  streamKey?: string;
+  isLive?: boolean;
+  chatEnabled?: boolean;
+  chatDelayed?: boolean;
+  chatFollowersOnly?: boolean;
+} | null;
+// Variable: SANITY_GET_STREAM_BY_ID_QUERY
+// Query: *[_type == "stream" && _id == $streamId][0] {    ...  }
+export type SANITY_GET_STREAM_BY_ID_QUERYResult = {
+  _id: string;
+  _type: "stream";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  userId?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  name?: string;
+  thumbnailUrl?: string;
+  ingressId?: string;
+  serverUrl?: string;
+  streamKey?: string;
+  isLive?: boolean;
+  chatEnabled?: boolean;
+  chatDelayed?: boolean;
+  chatFollowersOnly?: boolean;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -339,5 +420,8 @@ declare module "@sanity/client" {
     "*[_type == \"follow\" && followerId._ref == $followerId && followingId._ref == $followingId][0]": SANITY_GET_EXISTING_FOLLOWING_QUERYResult;
     "*[_type == \"follow\" && followerId._ref == $followerId] {\n    ...,\n    followingId -> {\n      ...\n    }\n  }": SANITY_GET_MY_FOLLOWINGS_QUERYResult;
     "*[_type == \"blocking\" && blockerId._ref == $blockerId && blockedId._ref == $blockedId][0]": SANITY_GET_EXISTING_BLOCKING_QUERYResult;
+    "*[_type == \"blocking\" && blockedId._ref == $blockedId] {\n      blockerId\n    }": SANITY_GET_USERS_WHO_BLOCKED_ME_QUERYResult;
+    "*[_type == \"stream\" && userId._ref == $userId][0] {\n    ...\n  }": SANITY_GET_STREAM_BY_USER_ID_QUERYResult;
+    "*[_type == \"stream\" && _id == $streamId][0] {\n    ...\n  }": SANITY_GET_STREAM_BY_ID_QUERYResult;
   }
 }

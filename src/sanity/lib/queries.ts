@@ -37,3 +37,20 @@ export const SANITY_GET_MY_FOLLOWINGS_QUERY = defineQuery(
 export const SANITY_GET_EXISTING_BLOCKING_QUERY = defineQuery(
   `*[_type == "blocking" && blockerId._ref == $blockerId && blockedId._ref == $blockedId][0]`,
 );
+export const SANITY_GET_USERS_WHO_BLOCKED_ME_QUERY = defineQuery(
+  `*[_type == "blocking" && blockedId._ref == $blockedId] {
+      blockerId
+    }`,
+);
+
+// Stream Queries
+export const SANITY_GET_STREAM_BY_USER_ID_QUERY = defineQuery(
+  `*[_type == "stream" && userId._ref == $userId][0] {
+    ...
+  }`,
+);
+export const SANITY_GET_STREAM_BY_ID_QUERY = defineQuery(
+  `*[_type == "stream" && _id == $streamId][0] {
+    ...
+  }`,
+);

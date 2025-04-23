@@ -4,6 +4,7 @@ import { sanityClient } from "@/sanity/lib/client";
 import {
   SANITY_GET_EXISTING_BLOCKING_QUERY,
   SANITY_GET_EXISTING_FOLLOWING_QUERY,
+  SANITY_GET_STREAM_BY_ID_QUERY,
   SANITY_GET_USER_BY_CLERK_ID,
   SANITY_GET_USER_BY_ID,
 } from "@/sanity/lib/queries";
@@ -197,6 +198,42 @@ export async function unblockUser(userToUnBlockId: string) {
     };
   } catch (error: any) {
     console.error("Error unblocking user:", error.message);
+    return {
+      error: error.message,
+    };
+  }
+}
+
+export async function updateStreamChatSetting(
+  streamId: string,
+  field: string,
+  value: boolean,
+) {
+  try {
+    const streamExists = await sanityClient.fetch(
+      SANITY_GET_STREAM_BY_ID_QUERY,
+      {
+        streamId: streamId,
+      },
+    );
+
+    if (!streamExists) throw new Error("Stream not found");
+
+    await sanityWriteClient
+      .patch(streamId)
+      .set({
+        [field]: value,
+      })
+      .commit();
+
+    revalidatePath(RELATIVE_PATHS.creatorPage);
+    revalidatePath(RELATIVE_PATHS.user);
+
+    return {
+      success: true,
+    };
+  } catch (error: any) {
+    console.error("Error updating stream chat setting:", error.message);
     return {
       error: error.message,
     };

@@ -1,6 +1,9 @@
 "use client";
 
-import { SANITY_GET_MY_FOLLOWINGS_QUERYResult, SANITY_GET_RECOMMENDED_USERS_QUERYResult } from "@/sanity/types";
+import {
+  SANITY_GET_MY_FOLLOWINGS_QUERYResult,
+  SANITY_GET_RECOMMENDED_USERS_QUERYResult,
+} from "@/sanity/types";
 import { useSidebarStore } from "@/store/use_sidebar_store";
 import UserItem from "./UserItem";
 
@@ -25,7 +28,12 @@ export default function UsersFollowed({ usersFollowed }: UsersFollowedProps) {
 
       <ul className="px-2 space-y-2">
         {usersFollowed.map((user) => (
-          <UserItem user={user.followingId as SANITY_GET_RECOMMENDED_USERS_QUERYResult[number]} key={user.followingId?._id} />
+          <UserItem
+            user={
+              user.followingId as SANITY_GET_RECOMMENDED_USERS_QUERYResult[number]
+            }
+            key={user.followingId?._id}
+          />
         ))}
       </ul>
     </>

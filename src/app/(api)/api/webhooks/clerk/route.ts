@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     if (evt.type === "user.created" && !existingUser) {
       console.log("Event type:", evt.type);
-      await sanityWriteClient.create({
+      const newUser = await sanityWriteClient.create({
         _type: "user",
         clerkId: evt.data.id,
         username: evt.data.username,
@@ -26,6 +26,19 @@ export async function POST(req: NextRequest) {
         profileImage: evt.data.image_url,
         firstName: evt.data.first_name,
         lastName: evt.data.last_name,
+      });
+
+      await sanityWriteClient.create({
+        _type: "stream",
+        userId: {
+          _type: "reference",
+          _ref: newUser._id,
+        },
+        name: `${evt.data.username}'s stream`,
+        chatEnabled: true,
+        chatDelayed: false,
+        chatFollowersOnly: false,
+        isLive: false,
       });
     } else if (evt.type === "user.updated" && existingUser) {
       await sanityWriteClient
