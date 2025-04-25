@@ -43,6 +43,13 @@ export const user_schema = defineType({
       type: "string",
       description: "User's lastname",
     }),
+    defineField({
+      name: "streamReference",
+      title: "Stream Reference",
+      type: "reference",
+      to: [{ type: "stream" }],
+      description: "Reference to the stream document",
+    }),
   ],
   preview: {
     select: {

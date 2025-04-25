@@ -9,7 +9,7 @@ export default async function CreatorChatPage() {
   return (
     <div className="p-4">
       <h1 className="mb-4 text-xl font-bold">Chat Settings</h1>
-      <div className="w-fulll space-y-4">
+      <div className="w-full space-y-4">
         <ToggleCard
           streamId={streamInfo._id}
           field="chatEnabled"

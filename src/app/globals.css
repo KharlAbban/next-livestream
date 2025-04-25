@@ -124,3 +124,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

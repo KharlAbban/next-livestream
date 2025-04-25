@@ -36,7 +36,7 @@ export const stream_schema = defineType({
     defineField({
       name: "serverUrl",
       title: "Ingress / Livestream Server url",
-      type: "url",
+      type: "string",
       description: "Livestream server url",
     }),
     defineField({
