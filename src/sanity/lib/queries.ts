@@ -15,7 +15,11 @@ export const SANITY_GET_USER_BY_USERNAME = defineQuery(
 
 export const SANITY_GET_RECOMMENDED_USERS_QUERY = defineQuery(
   `*[_type == "user" && clerkId != $clerkId] | order(_createdAt desc) {
-    ...
+    ...,
+    streamReference -> {
+      isLive,
+      name
+    }
   }`,
 );
 
@@ -28,7 +32,11 @@ export const SANITY_GET_MY_FOLLOWINGS_QUERY = defineQuery(
   `*[_type == "follow" && followerId._ref == $followerId] {
     ...,
     followingId -> {
-      ...
+      ...,
+      streamReference -> {
+        isLive,
+        name
+      }
     }
   }`,
 );
@@ -46,11 +54,19 @@ export const SANITY_GET_USERS_WHO_BLOCKED_ME_QUERY = defineQuery(
 // Stream Queries
 export const SANITY_GET_STREAM_BY_USER_ID_QUERY = defineQuery(
   `*[_type == "stream" && userId._ref == $userId][0] {
-    ...
+    ...,
+    userId -> {
+      ...
+    }
   }`,
 );
 export const SANITY_GET_STREAM_BY_ID_QUERY = defineQuery(
   `*[_type == "stream" && _id == $streamId][0] {
+    ...
+  }`,
+);
+export const SANITY_GET_STREAM_BY_INGRESS_ID_QUERY = defineQuery(
+  `*[_type == "stream" && ingressId == $ingressId][0] {
     ...
   }`,
 );

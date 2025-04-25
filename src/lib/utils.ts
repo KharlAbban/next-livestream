@@ -6,6 +6,7 @@ import {
   SANITY_GET_RECOMMENDED_USERS_QUERY,
   SANITY_GET_STREAM_BY_USER_ID_QUERY,
   SANITY_GET_USER_BY_ID,
+  SANITY_GET_USER_BY_USERNAME,
   SANITY_GET_USERS_WHO_BLOCKED_ME_QUERY,
 } from "@/sanity/lib/queries";
 import { clsx, type ClassValue } from "clsx";
@@ -184,6 +185,30 @@ export async function getStreamByUserId() {
     if (!stream) throw Error("Stream not found");
 
     return stream;
+  } catch (error: any) {
+    console.error(error.message);
+    return null;
+  }
+}
+
+export async function getStreamByUsername(username: string) {
+  try {
+    const existingUser = await sanityClient.fetch(SANITY_GET_USER_BY_USERNAME, {
+      username: username,
+    });
+
+    if (!existingUser) throw Error("User not found");
+
+    const userStream = await sanityClient.fetch(
+      SANITY_GET_STREAM_BY_USER_ID_QUERY,
+      {
+        userId: existingUser._id,
+      },
+    );
+
+    if (!userStream) throw Error("Stream not found");
+
+    return userStream;
   } catch (error: any) {
     console.error(error.message);
     return null;

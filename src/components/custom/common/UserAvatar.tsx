@@ -18,8 +18,8 @@ export const avatarSizes = cva("", {
 interface UserAvatarProps extends VariantProps<typeof avatarSizes> {
   username: string | undefined;
   imgUrl: string | undefined;
-  isLive?: boolean;
-  showBadge?: boolean;
+  isLive: boolean | null;
+  showBadge: boolean | null;
 }
 
 export default function UserAvatar({

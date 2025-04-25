@@ -13,12 +13,11 @@ export default function UserItem({
 }: {
   user: SANITY_GET_RECOMMENDED_USERS_QUERYResult[number];
 }) {
-  const isLive = true;
-
   const { collapsed } = useSidebarStore();
   const pathname = usePathname();
   const href = `${RELATIVE_PATHS.user}/${user.username}`;
   const isActive = pathname === href;
+  const isLive = user.streamReference ? user.streamReference.isLive : false;
 
   return (
     <Button
@@ -38,9 +37,9 @@ export default function UserItem({
           )}
         >
           <UserAvatar
-            showBadge={false}
+            showBadge={isLive}
             imgUrl={user.profileImage}
-            isLive={false}
+            isLive={isLive}
             username={user.username}
           />
           {!collapsed && <p className="truncate">{user.username}</p>}

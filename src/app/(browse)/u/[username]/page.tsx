@@ -1,6 +1,11 @@
-import { FollowUserButton } from "@/components/custom";
+import { FollowUserButton, StreamPlayer } from "@/components/custom";
 import BlockUserButton from "@/components/custom/common/BlockUserButton";
-import { hasBlockedUser, isBlockedByUser, isFollowingUser } from "@/lib/utils";
+import {
+  getStreamByUsername,
+  hasBlockedUser,
+  isBlockedByUser,
+  isFollowingUser,
+} from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { SANITY_GET_USER_BY_USERNAME } from "@/sanity/lib/queries";
 
@@ -13,11 +18,12 @@ export default async function UserDetailsPage({
   const user = await sanityClient.fetch(SANITY_GET_USER_BY_USERNAME, {
     username: username,
   });
+  const usersStream = await getStreamByUsername(username);
 
-  if (!user)
+  if (!user || !usersStream)
     return (
       <div className="w-full h-full flex items-center justify-center">
-        User not found
+        Content for this page is not available
       </div>
     );
 
@@ -34,6 +40,13 @@ export default async function UserDetailsPage({
       <p>Following this user: {`${isfollowingThisUser}`}</p>
       <FollowUserButton isFollowing={isfollowingThisUser} id={user._id} />
       <BlockUserButton id={user._id} hasBlockedUser={hasBlockedThisUser} />
+      <div className="p-4 mt-4">
+        <StreamPlayer
+          user={user}
+          stream={usersStream}
+          isFollowing={isfollowingThisUser}
+        />
+      </div>
     </div>
   );
 }

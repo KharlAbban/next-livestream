@@ -1,5 +1,8 @@
 import { sanityClient } from "@/sanity/lib/client";
-import { SANITY_GET_USER_BY_CLERK_ID } from "@/sanity/lib/queries";
+import {
+  SANITY_GET_STREAM_BY_USER_ID_QUERY,
+  SANITY_GET_USER_BY_CLERK_ID,
+} from "@/sanity/lib/queries";
 import { sanityWriteClient } from "@/sanity/lib/write_client";
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
 import { NextRequest } from "next/server";
@@ -28,7 +31,7 @@ export async function POST(req: NextRequest) {
         lastName: evt.data.last_name,
       });
 
-      await sanityWriteClient.create({
+      const newUserStream = await sanityWriteClient.create({
         _type: "stream",
         userId: {
           _type: "reference",
@@ -40,6 +43,13 @@ export async function POST(req: NextRequest) {
         chatFollowersOnly: false,
         isLive: false,
       });
+
+      await sanityWriteClient
+        .patch(newUser._id)
+        .set({
+          streamReference: { _type: "reference", _ref: newUserStream._id },
+        })
+        .commit();
     } else if (evt.type === "user.updated" && existingUser) {
       await sanityWriteClient
         .patch(existingUser._id)
@@ -52,6 +62,16 @@ export async function POST(req: NextRequest) {
         })
         .commit();
     } else if (evt.type === "user.deleted" && existingUser) {
+      const userStream = await sanityClient.fetch(
+        SANITY_GET_STREAM_BY_USER_ID_QUERY,
+        {
+          userId: existingUser._id,
+        },
+      );
+
+      if (userStream) {
+        await sanityWriteClient.delete(userStream._id);
+      }
       await sanityWriteClient.delete(existingUser._id);
     }
 
