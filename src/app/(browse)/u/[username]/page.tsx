@@ -6,7 +6,7 @@ import {
   isBlockedByUser,
   isFollowingUser,
 } from "@/lib/utils";
-import { sanityClient } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import { SANITY_GET_USER_BY_USERNAME } from "@/sanity/lib/queries";
 
 export default async function UserDetailsPage({
@@ -15,8 +15,11 @@ export default async function UserDetailsPage({
   params: Promise<{ username: string }>;
 }) {
   const { username } = await params;
-  const user = await sanityClient.fetch(SANITY_GET_USER_BY_USERNAME, {
-    username: username,
+  const { data: user } = await sanityFetch({
+    query: SANITY_GET_USER_BY_USERNAME,
+    params: {
+      username: username,
+    },
   });
   const usersStream = await getStreamByUsername(username);
 
